@@ -1,0 +1,41 @@
+
+
+body {    
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+}
+
+#header {
+    display: flex;
+    width: 100%;
+    background-size: cover;
+    justify-content: space-between;
+}
+
+#viewHighScores {
+    color: rgb(80, 34, 80);
+}
+
+#timer {
+    display: flex;
+}
+
+#timerNum {    
+    margin-left: 5px;
+}
+
+#quizBox {
+    text-align: center;
+    width: 50%;
+    margin: auto;
+
+}
+
+#startBtn {
+    background-color: rgb(80, 34, 80);
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 18px;
+    font-style: bold;
+}
