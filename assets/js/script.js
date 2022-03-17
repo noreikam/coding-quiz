@@ -6,13 +6,17 @@ var quizHeader = document.querySelector("#quizHeader");
 var btnBox = document.querySelector("#btnBox");
 var answerGroup;
 var quizBox = document.querySelector("#quizBox");
+var timerNum = document.querySelector("#timerNum");
+var timeLeft = 75;
 
 // function to clear extra html and call displayNextQuestion for index 0
 var startQuiz = function() {
     console.log("Start quiz");
+    timeLeft = 75;
     quizText.remove();
     startBtn.remove();
     displayNextQuestion();
+    setInterval(countdown, 1000);
 }
 
 // function to display next question
@@ -43,10 +47,19 @@ var displayNextQuestion = function() {
     }
 }
 
+// function that checks answer using class assigned of wrong/correct, deducts seconds if wrong, clears old question and calls next question
 var checkAnswer = function(event) {
     var answerClicked = event.target;
     if(answerClicked.matches(".wrong")) {
         console.log("wrong")
+        if (timeLeft < 10) {
+            timeLeft = 0;
+            timerNum.innerHTML = timeLeft;
+        }
+        else {
+            timeLeft = timeLeft - 10;            
+            timerNum.innerHTML = timeLeft;
+        }
 
     }
     else if(answerClicked.matches(".correct")) {
@@ -103,12 +116,22 @@ var questionArr = [
         correctAnswer: "2"
     }, 
     {
-        question: "A very useful tool used during development and debugging fo rprinting content to the debugger is:",
+        question: "A very useful tool used during development and debugging for printing content to the debugger is:",
         answers: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. console.log"],
         correctAnswer: "3"
     }
 ]
 
+var countdown = function() {
+    console.log("countdown");
+    console.log(timeLeft);
+    if(timeLeft > 0) {
+        timeLeft = timeLeft - 1;
+    }
+    timerNum.innerHTML = timeLeft;
+}
+
 highScoreBtn.addEventListener("click", viewHighScores);
 startBtn.addEventListener("click", startQuiz);
 btnBox.addEventListener("click", checkAnswer);
+
