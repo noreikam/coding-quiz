@@ -10,8 +10,10 @@ body {
     justify-content: space-between;
 }
 
-#highScoreBtn {
+#highScoreAnchor {
     color: rgb(80, 34, 80);
+    text-decoration: none;
+    
 }
 
 #timer {
@@ -24,6 +26,9 @@ body {
 
 #quizBox {
     text-align: center;
+}
+
+main {
     width: 50%;
     margin: auto;
 
@@ -45,4 +50,18 @@ button {
 
 #btnBox button {
     width: fit-content;
+}
+
+.anchorBtn {
+    padding: 13px;
+    color: white;
+    text-decoration: none;
+}
+
+#scoreEl {
+    background-color: rgb(201, 209, 223);
+}
+
+button:hover {
+    background-color: mediumpurple;
 }

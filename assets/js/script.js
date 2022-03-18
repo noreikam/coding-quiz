@@ -8,6 +8,8 @@ var answerGroup;
 var quizBox = document.querySelector("#quizBox");
 var timerNum = document.querySelector("#timerNum");
 var timeLeft = 75;
+var quizFinished = false;
+var finalScore;
 
 // function to clear extra html and call displayNextQuestion for index 0
 var startQuiz = function() {
@@ -83,14 +85,67 @@ var checkAnswer = function(event) {
     }
 }
 
+// function to show final score
 var displayScore = function() {
     console.log("game over, show score");
+    finalScore = timeLeft;
+
+    // freeze the timer
+    quizFinished = true;
+
+    
+    quizHeader.textContent = "All done!";
+
+    // build and append final score div
+    var finalScoreEl = document.createElement("p");
+    quizBox.appendChild(finalScoreEl);
+    finalScoreEl.innerHTML = "Your final score is " + finalScore;
+
+    // build and append submit div
+    var submitDiv = document.createElement("div");
+    quizBox.appendChild(submitDiv);
+
+    var initialsEl = document.createElement("p");
+    submitDiv.appendChild(initialsEl);
+    initialsEl.innerHTML = "Enter initials: ";
+
+    var inputEl = document.createElement("input");
+    submitDiv.appendChild(inputEl);
+    inputEl.outerHTML = "<input id='inputEl'>"
+
+    var submitBtn = document.createElement("button");
+    submitDiv.appendChild(submitBtn);
+    submitBtn.outerHTML = "<button id='submitScore'>Submit</button>";
+
+    // event listener for submit button
+    submitScore = document.querySelector("#submitScore");        
+    submitScore.addEventListener("click", saveScore);    
 }
 
-var viewHighScores = function() {
-    quizText.textContent = "Show high scores";
-    console.log("view high scores function called");
+// function to save score to local storage
+var saveScore = function() {
+    console.log("saveScore called");
 
+    var scoresArr;
+    // retrieve high scores from local storage
+    if(JSON.stringify(localStorage.scoresArr)) {
+        scoresArr = JSON.parse(localStorage.getItem("scoresArr"));
+    }
+    else {
+        scoresArr = [];
+    }
+
+    // retrieve initials from page
+    var initialsTemp = document.querySelector("#inputEl").value;
+    // create and push new high score object
+    console.log(finalScore);
+    console.log(initialsTemp);
+    var scoreObj = {initials: initialsTemp, score: finalScore};
+    console.log(scoreObj);
+    scoresArr.push(scoreObj);
+
+    // save new array to local storage
+    localStorage.setItem("scoresArr", JSON.stringify(scoresArr));
 }
 
 // array of question objects
@@ -123,15 +178,15 @@ var questionArr = [
 ]
 
 var countdown = function() {
-    console.log("countdown");
-    console.log(timeLeft);
-    if(timeLeft > 0) {
+    if(timeLeft > 0 && !quizFinished) {
         timeLeft = timeLeft - 1;
+        timerNum.innerHTML = timeLeft;
     }
-    timerNum.innerHTML = timeLeft;
+    else {
+        clearInterval(countdown);
+    }
 }
 
-highScoreBtn.addEventListener("click", viewHighScores);
 startBtn.addEventListener("click", startQuiz);
 btnBox.addEventListener("click", checkAnswer);
 
