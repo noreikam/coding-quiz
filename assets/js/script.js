@@ -8,8 +8,8 @@ var answerGroup;
 var quizBox = document.querySelector("#quizBox");
 var timerNum = document.querySelector("#timerNum");
 var timeLeft = 75;
-var quizFinished = false;
 var finalScore;
+var startTimer;
 
 // function to clear extra html and call displayNextQuestion for index 0
 var startQuiz = function() {
@@ -18,7 +18,7 @@ var startQuiz = function() {
     quizText.remove();
     startBtn.remove();
     displayNextQuestion();
-    setInterval(countdown, 1000);
+    startTimer = setInterval(countdown, 1000);
 }
 
 // function to display next question
@@ -91,8 +91,7 @@ var displayScore = function() {
     finalScore = timeLeft;
 
     // freeze the timer
-    quizFinished = true;
-
+    clearInterval(startTimer);
     
     quizHeader.textContent = "All done!";
 
@@ -178,12 +177,10 @@ var questionArr = [
 ]
 
 var countdown = function() {
-    if(timeLeft > 0 && !quizFinished) {
+    console.log("countdown" + timeLeft)
+    if(timeLeft > 0) {
         timeLeft = timeLeft - 1;
         timerNum.innerHTML = timeLeft;
-    }
-    else {
-        clearInterval(countdown);
     }
 }
 
